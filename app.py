@@ -1,7 +1,18 @@
 import streamlit as st
-from ocr import extract_aadhaar_details, extract_pan_details
+from ocr import extract_aadhaar_details, extract_pan_details, is_tesseract_available
 
-st.title("Aadhaar & PAN Verification System (Hackathon Demo)")
+st.set_page_config(page_title="Aadhaar & PAN Verification", layout="centered")
+
+st.title("🔐 Aadhaar & PAN Verification System")
+
+# Info banner (VERY IMPORTANT)
+if not is_tesseract_available():
+    st.info(
+        "ℹ️ Automatic OCR is disabled in cloud deployment. "
+        "Manual confirmation is required for security reasons."
+    )
+else:
+    st.success("✅ OCR enabled (On-Premise Mode)")
 
 aadhaar_img = st.file_uploader("Upload Aadhaar Image", ["jpg", "png", "jpeg"])
 pan_img = st.file_uploader("Upload PAN Image", ["jpg", "png", "jpeg"])
@@ -13,7 +24,7 @@ if aadhaar_img and pan_img:
     aadhaar_data = extract_aadhaar_details("aadhaar.jpg")
     pan_data = extract_pan_details("pan.jpg")
 
-    st.subheader("🔍 OCR Auto Extraction (if available)")
+    st.subheader("🔍 Auto Extraction (OCR if available)")
     st.write("Aadhaar Name:", aadhaar_data["name"] or "Not detected")
     st.write("DOB:", aadhaar_data["dob"] or "Not detected")
     st.write("Gender:", aadhaar_data["gender"] or "Not detected")
@@ -39,4 +50,4 @@ if aadhaar_img and pan_img:
     if all([a_name, a_dob, a_gender, a_no, p_name, p_father, p_dob, p_no]):
         st.success("✅ VERIFIED SUCCESSFULLY (Demo)")
     else:
-        st.warning("⚠️ Please confirm all details")
+        st.warning("⚠️ Please confirm all details to proceed")
