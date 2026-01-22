@@ -13,10 +13,9 @@ if aadhaar_img and pan_img:
     aadhaar_data = extract_aadhaar_details("aadhaar.jpg")
     pan_data = extract_pan_details("pan.jpg")
 
-    st.subheader("🔍 OCR Extracted (Auto)")
-
+    st.subheader("🔍 OCR Auto Extraction (if available)")
     st.write("Aadhaar Name:", aadhaar_data["name"] or "Not detected")
-    st.write("Aadhaar DOB:", aadhaar_data["dob"] or "Not detected")
+    st.write("DOB:", aadhaar_data["dob"] or "Not detected")
     st.write("Gender:", aadhaar_data["gender"] or "Not detected")
     st.write("Aadhaar No:", aadhaar_data["aadhaar"] or "Not detected")
 
@@ -25,7 +24,7 @@ if aadhaar_img and pan_img:
     st.write("PAN DOB:", pan_data["dob"] or "Not detected")
     st.write("PAN No:", pan_data["pan"] or "Not detected")
 
-    st.subheader("✍️ Manual Confirmation (Fallback)")
+    st.subheader("✍️ Manual Confirmation (Human-in-the-loop)")
 
     a_name = st.text_input("Confirm Aadhaar Name", aadhaar_data["name"])
     a_dob = st.text_input("Confirm Aadhaar DOB", aadhaar_data["dob"])
